@@ -3,7 +3,7 @@ package com.sdklite.util;
 import java.lang.reflect.Type;
 
 /**
- * This class is used to obtain the generic type parameter, useage:
+ * <p>This class is used to obtain the generic type parameter, useage:</p>
  * 
  * <pre>
  * Type listOfString = new GenericType&lt;List&lt;String&gt;&gt;(){}.getType();
@@ -22,10 +22,16 @@ public abstract class GenericType<T> {
 
     private final Type type;
 
+    /**
+     * Default constructor
+     */
     protected GenericType() {
         this.type = TypeResolver.getSuperclassTypeParameter(this);
     }
 
+    /**
+     * Returns the generic type parameter
+     */
     public Type getType() {
         return this.type;
     }
