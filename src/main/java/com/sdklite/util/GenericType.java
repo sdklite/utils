@@ -3,7 +3,7 @@ package com.sdklite.util;
 import java.lang.reflect.Type;
 
 /**
- * <p>This class is used to obtain the generic type parameter, useage:</p>
+ * <p>This class is used to obtain the generic type parameter</p>
  * 
  * <pre>
  * Type listOfString = new GenericType&lt;List&lt;String&gt;&gt;(){}.getType();
