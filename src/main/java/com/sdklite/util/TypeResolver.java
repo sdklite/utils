@@ -18,10 +18,24 @@ public abstract class TypeResolver {
 
     private static final Type[] EMPTY_TYPE_ARRAY = new Type[] {};
 
+    /**
+     * Returns the generic interface type parameter
+     * 
+     * @param o
+     *            The object to be resolved
+     * @return the generic interface type parameter
+     */
     public static Type getGenericInterfaceTypeParameter(final Object o) {
         return getGenericInterfaceTypeParameter(o.getClass());
     }
 
+    /**
+     * Returns the generic interface type parameter
+     * 
+     * @param clazz
+     *            The class to be resolved
+     * @return the generic interface type parameter
+     */
     public static Type getGenericInterfaceTypeParameter(final Class<?> clazz) {
         final Type[] interfaces = clazz.getGenericInterfaces();
         if (null == interfaces || interfaces.length <= 0) {
@@ -30,22 +44,50 @@ public abstract class TypeResolver {
         return getTypeParameter(interfaces[0]);
     }
 
+    /**
+     * Returns the superclass type parameter
+     * 
+     * @param o
+     *            The object to be resolved
+     * @return the superclass type parameter
+     */
     public static Type getSuperclassTypeParameter(final Object o) {
         return getSuperclassTypeParameter(o.getClass());
     }
 
+    /**
+     * Returns the superclass type parameter
+     * 
+     * @param clazz
+     *            The class to be resolved
+     * @return the superclass type parameter
+     */
     public static Type getSuperclassTypeParameter(final Class<?> clazz) {
         final Type superclass = clazz.getGenericSuperclass();
         if (superclass instanceof Class) {
-            throw new RuntimeException("Missing type parameter");
+            throw new IllegalArgumentException("Missing type parameter");
         }
         return getTypeParameter(superclass);
     }
 
+    /**
+     * Returns the generic type parameter
+     * 
+     * @param o
+     *            The object to be resolved
+     * @return the generic type parameter
+     */
     public static Type getGenericTypeParameter(final Object o) {
         return getGenericTypeParameter(o.getClass());
     }
 
+    /**
+     * Returns the generic type parameter
+     * 
+     * @param clazz
+     *            The class to be resolved
+     * @return the generic type parameter
+     */
     public static Type getGenericTypeParameter(final Class<?> clazz) {
         Type type = null;
 
@@ -178,8 +220,7 @@ public abstract class TypeResolver {
 
         @Override
         public int hashCode() {
-            return (this.lowerBound != null ? 31 + this.lowerBound.hashCode() : 1)
-                    ^ (31 + this.upperBound.hashCode());
+            return (this.lowerBound != null ? 31 + this.lowerBound.hashCode() : 1) ^ (31 + this.upperBound.hashCode());
         }
 
         @Override
@@ -204,7 +245,8 @@ public abstract class TypeResolver {
         public ParameterizedTypeImpl(final Type ownerType, final Type rawType, final Type... typeArguments) {
             if (rawType instanceof Class<?>) {
                 final Class<?> rawTypeAsClass = (Class<?>) rawType;
-                final boolean isStaticOrTopLevelClass = Modifier.isStatic(rawTypeAsClass.getModifiers()) || rawTypeAsClass.getEnclosingClass() == null;
+                final boolean isStaticOrTopLevelClass = Modifier.isStatic(rawTypeAsClass.getModifiers())
+                        || rawTypeAsClass.getEnclosingClass() == null;
                 checkArgument(ownerType != null || isStaticOrTopLevelClass);
             }
 
@@ -276,7 +318,8 @@ public abstract class TypeResolver {
 
         @Override
         public boolean equals(final Object o) {
-            return o instanceof GenericArrayType && TypeResolver.equals(this.componentType, ((GenericArrayType) o).getGenericComponentType());
+            return o instanceof GenericArrayType
+                    && TypeResolver.equals(this.componentType, ((GenericArrayType) o).getGenericComponentType());
         }
 
         @Override
